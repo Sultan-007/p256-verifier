@@ -222,6 +222,8 @@ export interface VerifyResult {
   error?: string
 }
 
+const PRECOMPILE_GAS = 3450n
+
 export const verifyOnChain = async (
   params: VerifyParams,
   rpcUrl?: string
@@ -236,11 +238,6 @@ export const verifyOnChain = async (
 
     const calldata = buildCalldata(params)
     const blockNumber = await client.getBlockNumber({ cacheTime: 0 })
-    const gasEstimate = await client.estimateGas({
-      to: P256_PRECOMPILE,
-      data: calldata
-    })
-
     const response = await client.call({
       to: P256_PRECOMPILE,
       data: calldata,
@@ -271,7 +268,7 @@ export const verifyOnChain = async (
       normalized === '0x01' ||
       normalized === '0x1'
 
-    return { valid, gasUsed: gasEstimate, blockNumber, rpcLatency }
+    return { valid, gasUsed: PRECOMPILE_GAS, blockNumber, rpcLatency }
   } catch (error) {
     const rpcLatency = Math.round(performance.now() - start)
     const message =
