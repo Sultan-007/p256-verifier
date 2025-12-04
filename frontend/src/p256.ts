@@ -255,7 +255,7 @@ export const verifyOnChain = async (
       return {
         valid: false,
         error: 'Empty response (precompile not active)',
-        gasUsed: gasEstimate,
+        gasUsed: PRECOMPILE_GAS,
         blockNumber,
         rpcLatency
       }
