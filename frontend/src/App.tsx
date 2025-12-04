@@ -141,11 +141,10 @@ Try the demo:`
       </header>
 
       <section className="explainer">
-        <h2>What is this demo proving?</h2>
+        <h2>What does this prove?</h2>
         <p>
-          This demo verifies a <strong>P-256 (secp256r1)</strong> signature directly on
-          Ethereum using the new <code>0x0100</code> precompile introduced in the{' '}
-          <strong>Fusaka upgrade</strong>.
+          A plain browser can mint a P-256 key, sign your text, and ask Ethereum&apos;s{' '}
+          <code>0x0100</code> precompile if the signature checks out.
         </p>
 
         <div className="why-matters">
@@ -153,27 +152,21 @@ Try the demo:`
             <span className="why-icon">🔐</span>
             <div>
               <strong>Passkeys & WebAuthn</strong>
-              <p>
-                P-256 is the curve used by Face ID, Touch ID, YubiKeys, and all FIDO2
-                authenticators.
-              </p>
+              <p>P-256 powers Face ID, Touch ID, YubiKeys, and every FIDO2 device.</p>
             </div>
           </div>
           <div className="why-item">
             <span className="why-icon">⚡</span>
             <div>
               <strong>60x Gas Reduction</strong>
-              <p>
-                Verifying P-256 in Solidity costs ~200,000 gas. This native precompile needs
-                ~3,500 gas.
-              </p>
+              <p>Solidity burns ~200k gas. The precompile needs ~3.5k.</p>
             </div>
           </div>
           <div className="why-item">
             <span className="why-icon">🌐</span>
             <div>
               <strong>Account Abstraction</strong>
-              <p>Enables smart accounts controlled by passkeys instead of seed phrases.</p>
+              <p>Seedless wallets become practical when the chain can read passkeys.</p>
             </div>
           </div>
         </div>
@@ -183,37 +176,35 @@ Try the demo:`
           type="button"
           onClick={() => setShowLearnMore((prev) => !prev)}
         >
-          {showLearnMore ? 'Hide technical details ↑' : 'Learn more about the cryptography ↓'}
+          {showLearnMore ? 'Hide the details ↑' : 'See how the math flows ↓'}
         </button>
 
         {showLearnMore && (
           <div className="learn-more">
-            <h3>The Cryptographic Flow</h3>
+            <h3>The flow</h3>
             <ol className="flow-steps">
               <li>
-                <strong>Key Generation</strong> — A P-256 keypair is generated. The private key
-                stays secure (in your device&apos;s secure enclave for real passkeys), while the
-                public key (X, Y coordinates) is shared.
+                <strong>Key Generation</strong> — A P-256 keypair appears. The private key stays
+                tucked away; the public key (x, y) can travel.
               </li>
               <li>
-                <strong>Message Hashing</strong> — The message is hashed with SHA-256 to produce a
-                32-byte digest. This is what actually gets signed.
+                <strong>Hashing</strong> — SHA-256 turns your text into 32 bytes. That digest gets
+                signed.
               </li>
               <li>
-                <strong>ECDSA Signing</strong> — The private key signs the hash, producing two
-                32-byte values: <code>r</code> and <code>s</code>.
+                <strong>Signing</strong> — ECDSA spits out two 32-byte numbers: <code>r</code> and{' '}
+                <code>s</code>.
               </li>
               <li>
-                <strong>Precompile Verification</strong> — The precompile at <code>0x0100</code>
-                receives 160 bytes (<code>hash || r || s || x || y</code>) and returns <code>1</code>{' '}
-                if valid.
+                <strong>Verification</strong> — The precompile eats 160 bytes (
+                <code>hash || r || s || x || y</code>) and returns <code>1</code> when everything
+                matches.
               </li>
             </ol>
-            <h3>Why P-256 instead of secp256k1?</h3>
+            <h3>Why P-256?</h3>
             <p>
-              Ethereum uses <strong>secp256k1</strong> for EOAs, but consumer devices use{' '}
-              <strong>P-256 (secp256r1)</strong>. Without this precompile, verifying passkey
-              signatures required expensive Solidity. Now it&apos;s native.
+              Ethereum loves secp256k1. Hardware you carry loves P-256. The precompile bridges that
+              gap without a 200k gas bill.
             </p>
           </div>
         )}

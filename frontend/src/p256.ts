@@ -235,7 +235,7 @@ export const verifyOnChain = async (
     })
 
     const calldata = buildCalldata(params)
-    const blockNumber = await client.getBlockNumber()
+    const blockNumber = await client.getBlockNumber({ cacheTime: 0 })
     const gasEstimate = await client.estimateGas({
       to: P256_PRECOMPILE,
       data: calldata

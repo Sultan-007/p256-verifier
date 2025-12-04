@@ -1,16 +1,16 @@
-## EIP-7951 P256 Precompile Demo (Frontend Only)
+## P256 Verifier
 
-This repo now focuses exclusively on the Bun + Vite React application living in `frontend/`. The app:
+A lean Bun + Vite app that proves the Fusaka precompile works. It:
 
-- Generates an ephemeral P-256 keypair with the Web Crypto API (no wallet pop-ups).
-- Hashes and signs arbitrary messages, surfacing the raw hash/`r`/`s`/`pub_x`/`pub_y`.
-- Calls the `0x0100` P-256 precompile introduced by the Fusaka upgrade (EIP-7951) via `viem`.
-- Visualizes gas usage, latency, block numbers, and offers a ready-to-share X post.
+- Mints a fresh P-256 keypair with Web Crypto.
+- Hashes and signs any sentence you type.
+- Builds the `hash || r || s || x || y` calldata required by `0x0100`.
+- Calls mainnet through viem and reports gas, block, and latency.
 
 ### Requirements
-- [Bun](https://bun.sh) ≥ 1.1
-- Node.js ≥ 22.12 (see `.nvmrc`)
-- Modern browser with secure-context Web Crypto (HTTPS or `http://localhost`)
+- [Bun](https://bun.sh) 1.1+
+- Node.js 22.12+ (`.nvmrc` is included)
+- A secure-context browser (HTTPS or `http://localhost`)
 
 ### Quickstart
 ```bash
@@ -20,23 +20,23 @@ bun install
 bun run dev
 ```
 
-> **RPCs:** The app auto-configures public RPCs for mainnet, Sepolia, and Holesky. Override them with `.env` entries if needed:
-> ```
-> VITE_RPC_MAINNET=https://your-mainnet-rpc
-> VITE_RPC_SEPOLIA=https://your-sepolia-rpc
-> VITE_RPC_HOLESKY=https://your-holesky-rpc
-> ```
+### Configure RPCs
+Public endpoints are baked in, but you can override them:
+```
+VITE_RPC_MAINNET=https://mainnet.example.org
+VITE_RPC_SEPOLIA=https://sepolia.example.org
+VITE_RPC_HOLESKY=https://holesky.example.org
+```
 
-### Build / Deploy
+### Build and Deploy
 ```bash
 bun run build
 ```
-
-The generated `frontend/dist/` bundle can be deployed directly to Vercel, Netlify, or any static host.
+Ship `frontend/dist/` to Vercel, Netlify, or any static host.
 
 ### Notes
-- Web Crypto requires HTTPS (or localhost); insecure origins automatically disable the signature button.
-- The repo still exposes the `verifyOnChain` helper inside `src/p256.ts`, so you can reuse the calldata builder or on-chain verifier elsewhere.
+- Web Crypto needs HTTPS. On insecure origins the “Generate Signature” button stays disabled.
+- `src/p256.ts` exports `verifyOnChain` and the calldata helpers if you want to reuse them elsewhere.
 
-Feel free to open issues or PRs if you’d like to extend the UI, add tests, or bring back a CLI/uv workflow in a separate directory.
+Issues and PRs welcome—especially if you want more tests, different copy, or a CLI sidecar again.
 
