@@ -50,12 +50,14 @@ export default function App() {
     let mounted = true
     const client = createPublicClient({
       chain: mainnet,
-      transport: http(DEFAULT_MAINNET_RPC)
+      transport: http(DEFAULT_MAINNET_RPC, {
+        fetchOptions: { cache: 'no-store' }
+      })
     })
 
     const refresh = async () => {
       try {
-        const block = await client.getBlockNumber({ cacheTime: 0 })
+        const block = await client.getBlockNumber()
         if (mounted) {
           setLatestBlock(block)
         }
@@ -65,7 +67,7 @@ export default function App() {
     }
 
     refresh()
-    const timer = setInterval(refresh, 15000)
+    const timer = setInterval(refresh, 12000)
     return () => {
       mounted = false
       clearInterval(timer)

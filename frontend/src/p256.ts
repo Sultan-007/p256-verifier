@@ -4,7 +4,7 @@ import { mainnet } from 'viem/chains'
 export const P256_PRECOMPILE = '0x0000000000000000000000000000000000000100' as const
 
 const TEXT_ENCODER = new TextEncoder()
-const DEFAULT_RPC = 'https://eth.llamarpc.com'
+const DEFAULT_RPC = import.meta.env?.VITE_RPC_MAINNET ?? 'https://eth.llamarpc.com'
 
 const toBytes = (value: ArrayBuffer | Uint8Array): Uint8Array =>
   value instanceof ArrayBuffer ? new Uint8Array(value) : value
@@ -235,11 +235,13 @@ export const verifyOnChain = async (
   try {
     const client = createPublicClient({
       chain: mainnet,
-      transport: http(rpcUrl ?? DEFAULT_RPC)
+      transport: http(rpcUrl ?? DEFAULT_RPC, {
+        fetchOptions: { cache: 'no-store' }
+      })
     })
 
     const calldata = buildCalldata(params)
-    const blockNumber = await client.getBlockNumber({ cacheTime: 0 })
+    const blockNumber = await client.getBlockNumber()
     const fullGas = await client.estimateGas({
       to: P256_PRECOMPILE,
       data: calldata

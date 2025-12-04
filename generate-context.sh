@@ -55,6 +55,7 @@ add_file() {
 CORE_FILES=(
   "README.md"
   ".nvmrc"
+  ".gitignore"
   "$0"
 )
 
@@ -63,9 +64,11 @@ for path in "${CORE_FILES[@]}"; do
 done
 
 FRONTEND_FILES=(
+  "frontend/.gitignore"
   "frontend/package.json"
   "frontend/tsconfig.json"
   "frontend/index.html"
+  "frontend/public/vite.svg"
   "frontend/src/App.tsx"
   "frontend/src/main.tsx"
   "frontend/src/p256.ts"
