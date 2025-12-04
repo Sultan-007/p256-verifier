@@ -460,18 +460,6 @@ Try the demo:`
                   </p>
                 </div>
 
-                <div className="share-row">
-                  {shareUrl && (
-                    <a
-                      href={shareUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn share"
-                    >
-                      🚀 Share on X
-                    </a>
-                  )}
-                </div>
               </>
             )}
           </div>
