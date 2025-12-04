@@ -12,6 +12,7 @@ import { mainnet } from 'wagmi/chains'
 import './style.css'
 
 const SOLIDITY_GAS = 200000n
+const DEFAULT_MAINNET_RPC = import.meta.env.VITE_RPC_MAINNET ?? 'https://eth.llamarpc.com'
 
 const EthereumLogo = () => (
   <svg width="28" height="28" viewBox="0 0 256 417" xmlns="http://www.w3.org/2000/svg">
@@ -46,16 +47,18 @@ export default function App() {
   const [latestBlock, setLatestBlock] = useState<bigint | null>(null)
 
   useEffect(() => {
-    const rpc = import.meta.env.VITE_RPC_MAINNET ?? 'https://eth.llamarpc.com'
+    let mounted = true
     const client = createPublicClient({
       chain: mainnet,
-      transport: http(rpc)
+      transport: http(DEFAULT_MAINNET_RPC)
     })
 
     const refresh = async () => {
       try {
         const block = await client.getBlockNumber({ cacheTime: 0 })
-        setLatestBlock(block)
+        if (mounted) {
+          setLatestBlock(block)
+        }
       } catch {
         // best effort; ignore errors
       }
@@ -63,7 +66,10 @@ export default function App() {
 
     refresh()
     const timer = setInterval(refresh, 15000)
-    return () => clearInterval(timer)
+    return () => {
+      mounted = false
+      clearInterval(timer)
+    }
   }, [])
 
   const handleSign = async () => {
@@ -83,13 +89,16 @@ export default function App() {
     }
     setLoading('Verifying on Ethereum mainnet...')
     try {
-      const result = await verifyOnChain({
-        messageHash: signature.messageHash,
-        r: signature.signature.r,
-        s: signature.signature.s,
-        pubX: signature.publicKey.x,
-        pubY: signature.publicKey.y
-      })
+      const result = await verifyOnChain(
+        {
+          messageHash: signature.messageHash,
+          r: signature.signature.r,
+          s: signature.signature.s,
+          pubX: signature.publicKey.x,
+          pubY: signature.publicKey.y
+        },
+        DEFAULT_MAINNET_RPC
+      )
       setVerifyResult(result)
       if (result.blockNumber) {
         setLatestBlock(result.blockNumber)
@@ -130,27 +139,6 @@ export default function App() {
       )
     : 20
 
-  const shareUrl = useMemo(() => {
-    if (!verifyResult?.valid) {
-      return null
-    }
-    const baseUrl =
-      typeof window !== 'undefined'
-        ? window.location.href
-        : 'https://github.com/espejelomar/eip-7951-demo'
-    const text = `🔐 Just verified a P-256 signature on Ethereum mainnet!
-
-⚡ Gas: ${verifyResult.gasUsed} (vs 200k in Solidity)
-📦 Block: ${verifyResult.blockNumber}
-
-Fusaka is LIVE. Passkeys on Ethereum are here.
-
-Try the demo:`
-    return `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-      text
-    )}&url=${encodeURIComponent(baseUrl)}`
-  }, [verifyResult])
-
   const blockToShow = latestBlock ?? verifyResult?.blockNumber ?? null
 
   return (
@@ -164,13 +152,13 @@ Try the demo:`
         <p className="hero-credit">
           Built by{' '}
           <a href="https://x.com/espejelomar" target="_blank" rel="noreferrer">
-            @espejelomar
-          </a>{' '}
-          /{' '}
-          <a href="https://github.com/omarespejel" target="_blank" rel="noreferrer">
-            omarespejel
+            Omar Espejel
           </a>
-          . Star{' '}
+          , Developer Advocate at Starknet Foundation (
+          <a href="https://github.com/omarespejel" target="_blank" rel="noreferrer">
+            @omarespejel
+          </a>
+          ). Star{' '}
           <a href="https://github.com/omarespejel/p256-verifier" target="_blank" rel="noreferrer">
             github.com/omarespejel/p256-verifier
           </a>{' '}
