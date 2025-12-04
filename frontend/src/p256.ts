@@ -61,6 +61,23 @@ const hexFromBytes = (value: Hex | Uint8Array): string => {
     .join('')
 }
 
+const toBigInt = (value: Hex | number): bigint => {
+  if (typeof value === 'number') {
+    return BigInt(value)
+  }
+
+  // BigInt expects a hex prefix for hexadecimal input, so restore it after stripping.
+  return BigInt(`0x${strip0x(value)}`)
+}
+
+export const fetchBlockNumber = async (client: PublicClient): Promise<bigint> => {
+  const response = await client.request({
+    method: 'eth_blockNumber'
+  })
+
+  return toBigInt(response as Hex | number)
+}
+
 export const sha256 = async (value: Uint8Array | string): Promise<Uint8Array> => {
   const data: Uint8Array =
     typeof value === 'string' ? TEXT_ENCODER.encode(value) : value
@@ -241,7 +258,7 @@ export const verifyOnChain = async (
     })
 
     const calldata = buildCalldata(params)
-    const blockNumber = await client.getBlockNumber()
+    const blockNumber = await fetchBlockNumber(client)
     const fullGas = await client.estimateGas({
       to: P256_PRECOMPILE,
       data: calldata
