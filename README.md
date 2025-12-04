@@ -2,7 +2,7 @@
 
 **Verify passkey signatures on Ethereum mainnet — now live with Fusaka.**
 
-[Live Demo](https://your-deployed-url.vercel.app) · [EIP-7212](https://eips.ethereum.org/EIPS/eip-7212)
+[Live Demo](https://p256.espejel.cc/) · [EIP-7212](https://eips.ethereum.org/EIPS/eip-7212)
 
 ---
 
