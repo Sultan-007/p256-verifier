@@ -2,6 +2,8 @@
 node_modules/
 frontend/node_modules/
 frontend/dist/
+generate-context.sh
+p256-verifier-context-*.txt
 
 # Logs & OS junk
 .DS_Store
