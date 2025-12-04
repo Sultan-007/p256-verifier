@@ -71,6 +71,21 @@ body {
   font-size: 0.95rem;
 }
 
+.hero-credit {
+  margin: 0 0 12px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.hero-credit a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.hero-credit a:hover {
+  text-decoration: underline;
+}
+
 .live-badge {
   display: inline-flex;
   align-items: center;

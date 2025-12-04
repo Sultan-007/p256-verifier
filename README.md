@@ -40,3 +40,5 @@ Ship `frontend/dist/` to Vercel, Netlify, or any static host.
 
 Issues and PRs welcome—especially if you want more tests, different copy, or a CLI sidecar again.
 
+Built by [@espejelomar](https://x.com/espejelomar) / [omarespejel](https://github.com/omarespejel). If it helps you, please star the repo or follow on X.
+

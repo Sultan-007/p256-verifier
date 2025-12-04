@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { createPublicClient, http } from 'viem'
 import {
   buildCalldata,
   formatBytes,
@@ -7,6 +8,7 @@ import {
 } from './p256'
 import { usePasskey, type PasskeyPayload } from './usePasskey'
 import { InfoCard } from './components/InfoCard'
+import { mainnet } from 'wagmi/chains'
 import './style.css'
 
 const SOLIDITY_GAS = 200000n
@@ -41,6 +43,28 @@ export default function App() {
   const [verifyResult, setVerifyResult] = useState<VerifyResult | null>(null)
   const [loading, setLoading] = useState('')
   const [showLearnMore, setShowLearnMore] = useState(false)
+  const [latestBlock, setLatestBlock] = useState<bigint | null>(null)
+
+  useEffect(() => {
+    const rpc = import.meta.env.VITE_RPC_MAINNET ?? 'https://eth.llamarpc.com'
+    const client = createPublicClient({
+      chain: mainnet,
+      transport: http(rpc)
+    })
+
+    const refresh = async () => {
+      try {
+        const block = await client.getBlockNumber({ cacheTime: 0 })
+        setLatestBlock(block)
+      } catch {
+        // best effort; ignore errors
+      }
+    }
+
+    refresh()
+    const timer = setInterval(refresh, 15000)
+    return () => clearInterval(timer)
+  }, [])
 
   const handleSign = async () => {
     setLoading('Generating P-256 keypair & signing...')
@@ -67,6 +91,9 @@ export default function App() {
         pubY: signature.publicKey.y
       })
       setVerifyResult(result)
+      if (result.blockNumber) {
+        setLatestBlock(result.blockNumber)
+      }
     } finally {
       setLoading('')
     }
@@ -124,6 +151,8 @@ Try the demo:`
     )}&url=${encodeURIComponent(baseUrl)}`
   }, [verifyResult])
 
+  const blockToShow = latestBlock ?? verifyResult?.blockNumber ?? null
+
   return (
     <div className="app">
       <header className="header">
@@ -132,14 +161,29 @@ Try the demo:`
         </div>
         <h1>EIP-7212 Verifier</h1>
         <p className="tagline">Native P-256 signature verification on Ethereum</p>
+        <p className="hero-credit">
+          Built by{' '}
+          <a href="https://x.com/espejelomar" target="_blank" rel="noreferrer">
+            @espejelomar
+          </a>{' '}
+          /{' '}
+          <a href="https://github.com/omarespejel" target="_blank" rel="noreferrer">
+            omarespejel
+          </a>
+          . Star{' '}
+          <a href="https://github.com/omarespejel/p256-verifier" target="_blank" rel="noreferrer">
+            github.com/omarespejel/p256-verifier
+          </a>{' '}
+          or follow on X if this helps you.
+        </p>
         <p className="hero-explainer">
           This demo verifies a <strong>P-256 signature</strong>—the same curve used by Face ID and
           YubiKeys—directly on Ethereum via the <code>0x0100</code> precompile.
         </p>
-        {verifyResult?.blockNumber && (
+        {blockToShow && (
           <div className="network-badge">
             <span className="live-dot" />
-            Ethereum Mainnet • Block #{verifyResult.blockNumber.toString()}
+            Ethereum Mainnet • Block #{blockToShow.toString()}
           </div>
         )}
       </header>
